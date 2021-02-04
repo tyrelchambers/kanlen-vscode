@@ -60,9 +60,21 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           webviewView.webview.postMessage({
             command: 'get-user',
             payload: {user: user}
-          })     
+          });
           return;
         }
+
+        case "get-snippets": {
+          const token = Util.getToken()
+          webviewView.webview.postMessage({
+            command: "get-snippets",
+            payload: {
+              token
+            }
+          });
+          break;
+        }
+
         case "onError": {
           if (!data.value) {
             return;

@@ -10,13 +10,20 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:kanlen-sidebar"
+    "onView:kanlen-sidebar",
+    "onCommand:kanlen-vscode.getTextSelection"
+
 
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
-     
+      {
+        "command": "kanlen-vscode.getTextSelection",
+        "title": "Create snippet from selection",
+        "category": "Kanlen"
+
+      }
     ],
     "viewsContainers": {
       "activitybar": [
