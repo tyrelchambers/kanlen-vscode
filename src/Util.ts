@@ -1,16 +1,20 @@
-'use strict';
+import * as vscode from "vscode";
 
-import { Memento } from "vscode";
+export class Util {
+  static globalState: vscode.ExtensionContext["globalState"];
 
-export class LocalStorageService {
-    
-    constructor(private storage: Memento) { }   
-    
-    public getValue<T>(key : string) : T{
-        return this.storage.get<T>(key, null!);
-    }
+  static getToken() {
+    return this.globalState.get<string>("token") || "";
+  }
 
-    public setValue<T>(key : string, value : T){
-        this.storage.update(key, value );
-    }
+  static getUser() {
+    return this.globalState.get<string>("user") || "";
+  }
+
+
+  static isLoggedIn() {
+    return (
+      !!this.globalState.get("token") 
+    );
+  }
 }

@@ -10,16 +10,34 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:kanlen-vscode.helloWorld"
+    "onView:kanlen-sidebar"
+
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
-      {
-        "command": "kanlen-vscode.helloWorld",
-        "title": "Hello World"
-      }
-    ]
+     
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "kanlen-sidebar-view",
+          "title": "Kanlen",
+          "icon": "media/k - light.svg"
+        }
+      ]
+    },
+    "views": {
+      "kanlen-sidebar-view": [
+        {
+          "type": "webview",
+          "id": "kanlen-sidebar",
+          "name": "Kanlen",
+          "icon": "media/k - light.svg",
+          "contextualTitle": "Kanlen"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
