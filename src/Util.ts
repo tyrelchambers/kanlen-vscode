@@ -11,6 +11,9 @@ export class Util {
     return this.globalState.get<string>("user") || "";
   }
 
+  static getSnippets() {
+    return this.globalState.get<string>("snippets") || ""
+  }
 
   static isLoggedIn() {
     return (

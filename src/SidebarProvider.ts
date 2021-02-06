@@ -35,6 +35,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           await Util.globalState.update("token", data.value)
           return;
         }
+
+        case "save-snippets": {          
+          await Util.globalState.update("snippets", JSON.stringify(data.value))
+          break;
+        }
         case "get-token": {
           webviewView.webview.postMessage({
             command: "get-token",

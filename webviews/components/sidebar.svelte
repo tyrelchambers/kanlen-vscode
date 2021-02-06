@@ -39,6 +39,10 @@
       })
       .then((res) => {
         snippets = res.data.snippets;
+        tsvscode.postMessage({
+          type: "save-snippets",
+          value: res.data.snippets,
+        });
       });
   };
 
@@ -57,8 +61,6 @@
         }
       )
       .then((res) => {
-        console.log(res, "---res----");
-
         tsvscode.postMessage({
           type: "onInfo",
           value: "Snippet saved",

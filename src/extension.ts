@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { languages } from './constants';
+import { IntellisenseProvider } from './CompletionProvider';
 import { SidebarProvider } from './SidebarProvider';
 import { Util } from './Util';
 
@@ -9,7 +9,7 @@ import { Util } from './Util';
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   Util.globalState = context.globalState;
-	
+	const snippets = Util.getSnippets()
 	
 	const sidebarProvider = new SidebarProvider(context.extensionUri);
 
@@ -19,6 +19,10 @@ export function activate(context: vscode.ExtensionContext) {
 			sidebarProvider
 		)
 	);
+
+	const provider = new IntellisenseProvider();
+	provider.addSnippets(snippets);
+  provider.activate(context);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand("kanlen-vscode.getTextSelection", async () => {
@@ -60,12 +64,7 @@ export function activate(context: vscode.ExtensionContext) {
     })
 	);
 
-	vscode.languages.registerCompletionItemProvider({
-		language: "typescript",
-		scheme: "untitled"
-	}, {
 	
-	})
 }
 
 // this method is called when your extension is deactivated
