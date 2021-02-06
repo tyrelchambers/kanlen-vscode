@@ -1,5 +1,5 @@
 import { CancellationToken, Command, CompletionItem, CompletionItemKind, Position, TextDocument, TextEdit } from "vscode";
-import * as vscode from 'vscode'
+import * as vscode from 'vscode';
 
 export class IntellisenseProvider implements vscode.CompletionItemProvider {
     public static readonly languageSelector: string[] = [ "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "coffeescript" ];
@@ -17,7 +17,7 @@ export class IntellisenseProvider implements vscode.CompletionItemProvider {
     context.subscriptions.push(this);
     
     // create completion provider
-    vscode.languages.registerCompletionItemProvider(IntellisenseProvider.languageSelector, this);
+    vscode.languages.registerCompletionItemProvider({pattern: "**/*"}, this);
     
   }
 

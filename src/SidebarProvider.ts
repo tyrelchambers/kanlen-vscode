@@ -32,12 +32,12 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "save-token": {
-          await Util.globalState.update("token", data.value)
+          await Util.globalState.update("token", data.value);
           return;
         }
 
         case "save-snippets": {          
-          await Util.globalState.update("snippets", JSON.stringify(data.value))
+          await Util.globalState.update("snippets", JSON.stringify(data.value));
           break;
         }
         case "get-token": {
@@ -70,7 +70,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         }
 
         case "get-snippets": {
-          const token = Util.getToken()
+          const token = Util.getToken();
           webviewView.webview.postMessage({
             command: "get-snippets",
             payload: {
