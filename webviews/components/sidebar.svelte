@@ -7,7 +7,7 @@
   let token: String | null = null;
   let snippets: ArrayLike<any> = [];
 
-  const login = async (email, password) => {
+  const login = async (email: string, password: string) => {
     await axios
       .post("http://localhost:4000/api/v1/auth/login", {
         email,
@@ -30,7 +30,7 @@
       });
   };
 
-  const usersSnippets = async (token) => {
+  const usersSnippets = async (token: string) => {
     await axios
       .get("http://localhost:4000/api/v1/snippets/me", {
         headers: {
@@ -88,7 +88,7 @@
     });
   });
 
-  let email, password;
+  let email: string, password: string;
 
   window.addEventListener("message", async (event) => {
     const message = event.data;
