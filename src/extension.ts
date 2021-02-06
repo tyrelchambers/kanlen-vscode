@@ -24,6 +24,33 @@ export function activate(context: vscode.ExtensionContext) {
 	provider.addSnippets(snippets);
   provider.activate(context);
 
+	if (Util.getToken()) {
+		vscode.commands.executeCommand('setContext', 'kanlen:isLoggedIn', true);
+	}
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand("kanlen-vscode.refreshSnippets", async () => {
+			const token = Util.getToken()
+			sidebarProvider._view?.webview.postMessage({
+				command: "get-snippets",
+				payload: {
+					token
+				}
+			});
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand("kanlen-vscode.logout", async () => {
+			Util.globalState.update("token", null)
+			sidebarProvider._view?.webview.postMessage({
+				command: "logout"
+			});
+					vscode.commands.executeCommand('setContext', 'kanlen:isLoggedIn', false);
+
+		})
+	);
+
 	context.subscriptions.push(
 		vscode.commands.registerCommand("kanlen-vscode.getTextSelection", async () => {
      const { activeTextEditor } = vscode.window;

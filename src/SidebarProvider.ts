@@ -32,6 +32,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "save-token": {
+          if (!data.value) {
+            return;
+          }
+          vscode.commands.executeCommand('setContext', 'kanlen:isLoggedIn', true);
+
           await Util.globalState.update("token", data.value);
           return;
         }

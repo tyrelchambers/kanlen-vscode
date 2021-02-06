@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 
 export class IntellisenseProvider implements vscode.CompletionItemProvider {
     public static readonly languageSelector: string[] = [ "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "coffeescript" ];
-    public static readonly triggerCharacters: string[] = [ "k:" ];
+    public static readonly triggerCharacters: string[] = [ "" ];
     private context: vscode.ExtensionContext | undefined;
     private readonly disposables: vscode.Disposable[] = [];
     private snippets:any[] = [];
@@ -24,19 +24,9 @@ export class IntellisenseProvider implements vscode.CompletionItemProvider {
   public async provideCompletionItems(document: TextDocument, position: Position, token: CancellationToken): Promise<CompletionItem[]> {
     let list: CompletionItem[] = [];
 
-    const activeEditor = vscode.window.activeTextEditor;
-    if (activeEditor) {
-        const line = activeEditor.selection.active.line;
-        console.log(document.getText(document.lineAt(position).range).replace(/k:/, ""));
-
-    }
-
     this.snippets.forEach(item => list.push(createCompletionItem(item.name, CompletionItemKind.Function, { detail: "Kanlen function", insertText: item.snippet}))
 );
-    // this.snippets.forEach(item => list.push(createCompletionItem(item.name, CompletionItemKind.Function, { detail: "Kanlen function", textEdit: TextEdit.replace()})));
-
-    
-
+ 
     return list;
   }
     

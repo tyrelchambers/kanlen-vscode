@@ -4,8 +4,8 @@
   import type { User } from "../shared/types";
   let currentUser: User | null = null;
   let gotTokens = false;
-  let token: String | null = null;
-  let snippets: ArrayLike<any> = [];
+  let myToken: String | null = null;
+  let snippets: Array<any> = [];
 
   const login = async (email: string, password: string) => {
     await axios
@@ -15,6 +15,8 @@
       })
       .then(async (res) => {
         const { token, user } = res.data;
+        myToken = token;
+        currentUser = user;
         tsvscode.postMessage({
           type: "save-token",
           value: {
@@ -27,6 +29,7 @@
             user,
           },
         });
+        usersSnippets(myToken);
       });
   };
 
@@ -38,7 +41,7 @@
         },
       })
       .then((res) => {
-        snippets = res.data.snippets;
+        snippets = [...res.data.snippets];
         tsvscode.postMessage({
           type: "save-snippets",
           value: res.data.snippets,
@@ -56,7 +59,7 @@
         },
         {
           headers: {
-            token,
+            token: myToken,
           },
         }
       )
@@ -94,7 +97,7 @@
     const message = event.data;
     switch (message.command) {
       case "get-token":
-        token = message.payload.token.token;
+        myToken = message.payload.token.token;
         gotTokens = true;
         break;
 
@@ -104,19 +107,24 @@
         break;
 
       case "get-snippets":
-        token = message.payload.token.token;
-        usersSnippets(token);
+        myToken = message.payload.token.token;
+
+        usersSnippets(myToken);
         break;
 
       case "save-snippet":
         const { name, snippet } = message.payload;
         saveSnippet(name, snippet);
         break;
+
+      case "logout":
+        myToken = null;
+        break;
     }
   });
 </script>
 
-{#if !token}
+{#if !myToken}
   <h1>Login</h1>
   <input
     type="email"
@@ -136,19 +144,27 @@
   <button on:click={() => login(email, password)}>login</button>
 {/if}
 
-<h3>Your Snippets</h3>
-<ul class="snippet-list">
-  {#each snippets as s}
-    <li class="snippet-item">
-      <p>{s.name}</p>
-    </li>
-  {/each}
-</ul>
+{#if myToken}
+  <h2>Good day, {currentUser.user.name}!</h2>
+  <h3>Your Snippets</h3>
+  <ul class="snippet-list">
+    {#each snippets as s}
+      <li class="snippet-item">
+        <p>{s.name}</p>
+      </li>
+    {/each}
+  </ul>
+{/if}
 
 <style>
   h3 {
     margin-bottom: 1em;
     margin-top: 1em;
+  }
+
+  h2 {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
   }
   .snippet-list {
     padding: 0;

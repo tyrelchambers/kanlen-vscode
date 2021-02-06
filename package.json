@@ -11,7 +11,8 @@
   ],
   "activationEvents": [
     "onView:kanlen-sidebar",
-    "onCommand:kanlen-vscode.getTextSelection"
+    "onCommand:kanlen-vscode.getTextSelection",
+    "onCommand:kanlen-vscode.refreshSnippets"
 
 
   ],
@@ -23,8 +24,31 @@
         "title": "Create snippet from selection",
         "category": "Kanlen"
 
+      },
+      {
+        "command": "kanlen-vscode.refreshSnippets",
+        "title": "Fetch your snippets",
+        "category": "Kanlen"
+      },
+      {
+        "command": "kanlen-vscode.logout",
+        "title": "Logout",
+        "category": "Kanlen"
       }
     ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "kanlen-vscode.refreshSnippets",
+          "when": "kanlen:isLoggedIn == true"
+        },
+        {
+          "command": "kanlen-vscode.logout",
+          "when": "kanlen:isLoggedIn == true"
+
+        }
+      ]
+    },
     "viewsContainers": {
       "activitybar": [
         {
