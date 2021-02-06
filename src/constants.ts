@@ -1,0 +1,1 @@
+export const apiBaseUrl = "https://kanlen.ca/api/v1";

@@ -2,14 +2,15 @@
   import { onMount } from "svelte";
   import axios from "axios";
   import type { User } from "../shared/types";
+  import { apiBaseUrl } from "../../src/constants";
+
   let currentUser: User | null = null;
-  let gotTokens = false;
   let myToken: String | null = null;
   let snippets: Array<any> = [];
 
   const login = async (email: string, password: string) => {
     await axios
-      .post("http://localhost:4000/api/v1/auth/login", {
+      .post(`${apiBaseUrl}/auth/login`, {
         email,
         password,
       })
@@ -35,7 +36,7 @@
 
   const usersSnippets = async (token: string) => {
     await axios
-      .get("http://localhost:4000/api/v1/snippets/me", {
+      .get(`${apiBaseUrl}/snippets/me`, {
         headers: {
           token: token,
         },
@@ -52,7 +53,7 @@
   const saveSnippet = async (name: string, snippet: any) => {
     await axios
       .post(
-        "http://localhost:4000/api/v1/snippets/save",
+        `${apiBaseUrl}/snippets/save`,
         {
           name,
           snippet,
@@ -98,7 +99,6 @@
     switch (message.command) {
       case "get-token":
         myToken = message.payload.token.token;
-        gotTokens = true;
         break;
 
       case "get-user":
@@ -122,6 +122,13 @@
         break;
     }
   });
+
+  const copyToClipboard = (text) => {
+    tsvscode.postMessage({
+      type: "write-clipboard",
+      value: text,
+    });
+  };
 </script>
 
 {#if !myToken}
@@ -142,17 +149,23 @@
   />
 
   <button on:click={() => login(email, password)}>login</button>
+
+  <p>
+    Or, <a href="https://kanlen.ca/signup">signup.</a>
+  </p>
 {/if}
 
 {#if myToken}
   <h2>Good day, {currentUser.user.name}!</h2>
   <h3>Your Snippets</h3>
   <ul class="snippet-list">
-    {#each snippets as s}
-      <li class="snippet-item">
-        <p>{s.name}</p>
-      </li>
-    {/each}
+    {#if snippets.length > 0}
+      {#each snippets as s}
+        <li class="snippet-item" on:click={() => copyToClipboard(s.snippet)}>
+          <p>{s.name}</p>
+        </li>
+      {/each}
+    {/if}
   </ul>
 {/if}
 
@@ -162,7 +175,8 @@
     margin-top: 1em;
   }
 
-  h2 {
+  h2,
+  h1 {
     margin-top: 1.5em;
     margin-bottom: 1.5em;
   }
@@ -170,11 +184,12 @@
     padding: 0;
   }
   .snippet-item {
-    background-color: #1a202c;
+    background-color: var(--vscode-button-background);
     list-style-type: none;
     padding: 1em;
     border-radius: 5px;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+    cursor: pointer;
   }
 </style>

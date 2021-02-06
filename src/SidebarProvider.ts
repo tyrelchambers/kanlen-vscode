@@ -85,6 +85,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break;
         }
 
+        case 'write-clipboard': {
+          const {value} = data;
+          vscode.env.clipboard.writeText(value)
+          vscode.window.showInformationMessage("Snippet saved to clipboard");
+
+          break;
+        }
+
         case "onError": {
           if (!data.value) {
             return;
