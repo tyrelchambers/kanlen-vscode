@@ -9,7 +9,7 @@ import { Util } from './Util';
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   Util.globalState = context.globalState;
-	const snippets = Util.getSnippets()
+	const snippets = Util.getSnippets();
 	
 	const sidebarProvider = new SidebarProvider(context.extensionUri);
 
@@ -47,10 +47,10 @@ export function activate(context: vscode.ExtensionContext) {
 			await vscode.window.showInputBox({
 				placeHolder: "Name your snippet",
 				prompt: "This will get saved to your Kanlen profile under the name you provide."
-			}).then(input => snippetName = input)
+			}).then(input => snippetName = input);
 
 			if (!snippetName) {
-				return vscode.window.showErrorMessage("No name provided. Snippet not saved.")
+				return vscode.window.showErrorMessage("No name provided. Snippet not saved.");
 			}
 			sidebarProvider._view?.webview.postMessage({
 				command: 'save-snippet',
