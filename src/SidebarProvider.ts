@@ -67,10 +67,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         }
 
         case "get-user": {
-          const user = JSON.parse(Util.getUser());     
+          const user = JSON.parse(Util.getUser());    
+           
           webviewView.webview.postMessage({
             command: 'get-user',
-            payload: user
+            payload: user.user
           });
           return;
         }
@@ -118,9 +119,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     const scriptUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "out", "compiled/sidebar.js")
     );
-    const styleMainUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "out", "compiled/sidebar.css")
-    );
+
     const styleVSCodeUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
     );
@@ -142,7 +141,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<link href="${styleResetUri}" rel="stylesheet">
 				<link href="${styleVSCodeUri}" rel="stylesheet">
-        <link href="${styleMainUri}" rel="stylesheet">
         <script>
           const tsvscode = acquireVsCodeApi();
           let token = ${JSON.stringify(Util.getToken())};
