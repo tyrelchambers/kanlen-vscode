@@ -1,7 +1,8 @@
 {
-  "name": "kanlen-vscode",
-  "displayName": "kanlen-vscode",
-  "description": "",
+  "name": "Kanlen",
+  "displayName": "kanlen",
+  "publisher": "tyrelchambers",
+  "description": "A tool for creating and importing custom made functions from Kanlen.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.52.0"
