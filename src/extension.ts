@@ -30,6 +30,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand("kanlen-vscode.refreshSnippets", async () => {
+			if (!Util.getToken()) {
+			 return vscode.window.showErrorMessage("Please sign in to use that command")
+		 }
 			const token = Util.getToken()
 			sidebarProvider._view?.webview.postMessage({
 				command: "get-snippets",
@@ -42,11 +45,15 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand("kanlen-vscode.logout", async () => {
+			if (!Util.getToken()) {
+			 return vscode.window.showErrorMessage("Please sign in to use that command")
+		 }
+		 
 			Util.globalState.update("token", null)
 			sidebarProvider._view?.webview.postMessage({
 				command: "logout"
 			});
-					vscode.commands.executeCommand('setContext', 'kanlen:isLoggedIn', false);
+			vscode.commands.executeCommand('setContext', 'kanlen:isLoggedIn', false);
 
 		})
 	);
@@ -54,6 +61,11 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand("kanlen-vscode.getTextSelection", async () => {
      const { activeTextEditor } = vscode.window;
+
+		 if (!Util.getToken()) {
+			 return vscode.window.showErrorMessage("Please sign in to use that command")
+		 }
+
       if (!activeTextEditor) {
         vscode.window.showErrorMessage("I don't see any code");
         return;

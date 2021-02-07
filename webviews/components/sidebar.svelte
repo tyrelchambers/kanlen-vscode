@@ -69,6 +69,11 @@
           type: "onInfo",
           value: "Snippet saved",
         });
+
+        tsvscode.postMessage({
+          type: "onInfo",
+          value: "Refresh the window to update intellisense with new command",
+        });
       })
       .catch((err) => {
         tsvscode.postMessage({
@@ -79,12 +84,12 @@
   };
 
   onMount(async () => {
-    tsvscode.postMessage({
-      type: "get-user",
+    await tsvscode.postMessage({
+      type: "get-token",
     });
 
     tsvscode.postMessage({
-      type: "get-token",
+      type: "get-user",
     });
 
     tsvscode.postMessage({
@@ -103,6 +108,7 @@
 
       case "get-user":
         let user = message.payload.user;
+
         currentUser = user;
         break;
 
@@ -155,8 +161,8 @@
   </p>
 {/if}
 
-{#if myToken}
-  <h2>Good day, {currentUser.user.name}!</h2>
+{#if currentUser}
+  <h2>Good day, {currentUser.name}!</h2>
   <h3>Your Snippets</h3>
   <ul class="snippet-list">
     {#if snippets.length > 0}

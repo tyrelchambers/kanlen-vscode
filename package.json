@@ -29,6 +29,7 @@
         "command": "kanlen-vscode.refreshSnippets",
         "title": "Fetch your snippets",
         "category": "Kanlen"
+        
       },
       {
         "command": "kanlen-vscode.logout",

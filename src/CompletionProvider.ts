@@ -6,7 +6,7 @@ export class IntellisenseProvider implements vscode.CompletionItemProvider {
     public static readonly triggerCharacters: string[] = [ "" ];
     private context: vscode.ExtensionContext | undefined;
     private readonly disposables: vscode.Disposable[] = [];
-    private snippets:any[] = [];
+    public snippets:any[] = [];
 
      public addSnippets(s: any) {       
       this.snippets = JSON.parse(s);

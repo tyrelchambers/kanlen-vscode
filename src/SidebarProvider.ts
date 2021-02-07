@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { IntellisenseProvider } from "./CompletionProvider";
 import { getNonce } from "./getNonce";
 import { Util } from "./Util";
 
@@ -69,7 +70,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           const user = JSON.parse(Util.getUser());     
           webviewView.webview.postMessage({
             command: 'get-user',
-            payload: {user: user}
+            payload: user
           });
           return;
         }
@@ -85,6 +86,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break;
         }
 
+      
         case 'write-clipboard': {
           const {value} = data;
           vscode.env.clipboard.writeText(value)
