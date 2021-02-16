@@ -3,6 +3,7 @@
   "displayName": "kanlen",
   "publisher": "tyrelchambers",
   "description": "A tool for creating and importing custom made functions from Kanlen.",
+  "icon": "media/k-dark.jpg",
   "repository": {
     "type": "git",
     "url": "https://github.com/tyrelchambers/kanlen-vscode"
