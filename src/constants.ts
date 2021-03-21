@@ -1,1 +1,1 @@
-export const apiBaseUrl = "https://kanlen.ca/api/v1";
+export const apiBaseUrl = "https://api.kanlen.ca/api/v1";
