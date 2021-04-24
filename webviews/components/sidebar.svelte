@@ -14,8 +14,8 @@
         email,
         password,
       })
-      .then(async (res) => {
-        const { token, user } = res.data;
+      .then(async ({ success }) => {
+        const { token, user } = success.data;
         myToken = token;
         currentUser = user;
         tsvscode.postMessage({
@@ -41,11 +41,11 @@
           token: token,
         },
       })
-      .then((res) => {
-        snippets = [...res.data.snippets];
+      .then(({ success }) => {
+        snippets = [...success.data.snippets];
         tsvscode.postMessage({
           type: "save-snippets",
-          value: res.data.snippets,
+          value: success.data.snippets,
         });
       });
   };
